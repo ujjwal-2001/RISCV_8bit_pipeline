@@ -1,2 +1,2 @@
-# RISCV_8bit_pipeline
-Project for the grading of Digital Design for FPGA course 
+# 8-bit RISC V
+Project for the grading of Digital System Design for FPGA course 
