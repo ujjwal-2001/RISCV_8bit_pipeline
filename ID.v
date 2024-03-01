@@ -25,11 +25,12 @@ module ID
     output wire [7:0] read_data1,
     output wire [7:0] read_data2,
     output wire [11:0] immediate,
-    output wire [6:0] funct7,
-    output wire [2:0] funct3
+    output wire [9:0] funct
 );
 
     wire reg_write;
+
+    assign funct = {`FUNCT7 ,`FUNCT3};
 
     Control CU(
         .opcode(`OPCODE),
