@@ -7,7 +7,9 @@ module Control
     output wire [1:0] alu_op,
     output wire mem_write,
     output wire alu_src,
-    output wire reg_write,
+    output wire reg_write
 );
+
+        
 
 endmodule

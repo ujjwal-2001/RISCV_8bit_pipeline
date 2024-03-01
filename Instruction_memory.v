@@ -1,4 +1,4 @@
-module Instruction_memory #(parameter PC_SIZE=32, parameter MEM_SIZE=1024)
+module Instruction_Memory #(parameter PC_SIZE=32, parameter MEM_SIZE=1024)
 (
     input wire [PC_SIZE-1:0] read_address,
     input wire reset,
