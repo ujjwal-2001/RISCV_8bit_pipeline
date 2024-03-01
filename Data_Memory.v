@@ -1,4 +1,4 @@
-module Data_Memory #(parameter ADDRESS_LINE=8)
+module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
 (
     input wire clock,
     input wire reset,
@@ -9,7 +9,7 @@ module Data_Memory #(parameter ADDRESS_LINE=8)
     output wire [7:0] read_data
 );
 
-    reg [7:0] memory[256:0];
+    reg [7:0] memory[MEM_SIZE-1:0];
 
     assign read_data = mem_read ? memory[address] : 8'b0;
 

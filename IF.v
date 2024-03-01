@@ -2,7 +2,7 @@
 // `include "Instruction_Memory.v"
 // `include "MUX_2to1.v"
 
-module IF #(parameter PC_SIZE=32)
+module IF #(parameter PC_SIZE=32, parameter INST_MEM_SIZE=1024)
 (
     input wire clock,
     input wire reset,
@@ -26,14 +26,14 @@ module IF #(parameter PC_SIZE=32)
         .Y(PC_in)
     );
 
-    Program_Counter PC(
+    Program_Counter #(.PC_SIZE(PC_SIZE)) PC(
         .clock(clock),
         .reset(reset),
         .PC_in(PC_in),
         .PC_out(PC_out)
     );
 
-    Instruction_Memory IM(
+    Instruction_Memory #(.PC_SIZE(PC_SIZE), .MEM_SIZE(INST_MEM_SIZE)) IM(
         .read_address(PC_out),
         .instruction(instruction),
         .reset(reset)

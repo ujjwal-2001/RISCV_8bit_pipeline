@@ -1,6 +1,6 @@
-// `include "Data_Memory.v"
+`include "Data_Memory.v"
 
-module MEM 
+module MEM  #(parameter ADDRESS_LINE=8,  parameter DATA_MEM_SIZE=256)
 (
     input wire clock,
     input wire reset,
@@ -21,7 +21,7 @@ module MEM
     assign mem_to_reg_out = mem_to_reg_in;
     assign ALU_result_out = ALU_result_in;
 
-    Data_Memory DM(
+    Data_Memory  #(.ADDRESS_LINE(ADDRESS_LINE),.MEM_SIZE(DATA_MEM_SIZE)) DM(
         .clock(clock),
         .reset(reset),
         .write_data(write_data),
