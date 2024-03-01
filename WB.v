@@ -1,4 +1,4 @@
-`include "MUX_2to1.v"
+// `include "MUX_2to1.v"
 
 module WB
 (
