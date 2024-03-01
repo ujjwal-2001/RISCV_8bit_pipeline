@@ -9,7 +9,6 @@ module Control
     output wire alu_src,
     output wire reg_write
 );
-
         
 
 endmodule
