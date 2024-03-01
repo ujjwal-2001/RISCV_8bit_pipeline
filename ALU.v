@@ -3,7 +3,7 @@ module ALU
     input wire [7:0] data1,
     input wire [7:0] data2,
     input wire [3:0] ALU_control,
-    output wire [7:0] ALU_result,
+    output reg [7:0] ALU_result,
     output wire zero
 );
 
@@ -11,6 +11,8 @@ module ALU
     parameter OR = 4'b0001;
     parameter ADD = 4'b0010;
     parameter SUBTRACT = 4'b0110;
+
+    assign zero = (ALU_result == 0) ? 1'b1 : 1'b0;
 
     always@(*)
     begin
