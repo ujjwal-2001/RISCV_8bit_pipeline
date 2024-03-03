@@ -12,10 +12,10 @@ module Registers
 );
 
     reg [7:0] registers[31:0]; // 32 registers, each 8-bit wide
-
+    integer i=0;
     always@(posedge clock) begin
         if(reset)begin
-            for(integer i=0; i<32; i=i+1)begin
+            for( i=0; i<32; i=i+1)begin
                 registers[i] <= 0;
             end
         end

@@ -2,7 +2,7 @@
 // `include "MUX_2to1.v"
 // `include "ALU_Control.v"
 
-module EXE #(parameter PC_SIZE=32)
+module EXE #(parameter PC_SIZE=10)
 (
     input wire [PC_SIZE-1:0] PC_out,
     input wire [7:0] data1,

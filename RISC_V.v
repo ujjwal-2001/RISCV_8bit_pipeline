@@ -4,17 +4,20 @@
 // `include "MEM.v"
 // `include "WB.v"
 
-module RISC_V #(parameter PC_SIZE=32, parameter INST_MEM_SIZE=1024, 
+module RISC_V #(parameter PC_SIZE=10, 
 parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
 (
     input wire clock,
-    input wire reset
+    input wire reset,
+    input wire reset_IF_memory,
+    input wire [PC_SIZE-1:0] PC_write,
+    input wire [31:0] instruction_in
 );
 
     wire [PC_SIZE-1:0] PC_jump;
     wire [PC_SIZE-1:0] PC_out;
     wire PCScr;
-    wire [31:0] instruction;
+    wire [31:0] instruction_out;
 
     wire branch_ID_out;
     wire mem_read_ID_out;
@@ -37,19 +40,22 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
 
     wire mem_to_reg_MEM_out;
 
-    IF #(.PC_SIZE(PC_SIZE), .INST_MEM_SIZE(INST_MEM_SIZE)) IF(
+    IF #(.PC_SIZE(PC_SIZE)) IF(
         .clock(clock),
         .reset(reset),
+        .reset_memory(reset_IF_memory),
         .PC_jump(PC_jump),
         .PC_out(PC_out),
         .PCScr(PCScr),
-        .instruction(instruction)
+        .PC_write(PC_write),
+        .instruction_in(instruction_in),
+        .instruction_out(instruction_out)
     );
 
     ID ID(
         .clock(clock),
         .reset(reset),
-        .instruction(instruction),
+        .instruction(instruction_out),
         .write_reg_data(write_reg_data),
         .branch(branch_ID_out),
         .mem_read(mem_read_ID_out),

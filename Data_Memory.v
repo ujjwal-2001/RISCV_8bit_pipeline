@@ -12,10 +12,10 @@ module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
     reg [7:0] memory[MEM_SIZE-1:0];
 
     assign read_data = mem_read ? memory[address] : 8'b0;
-
+    integer i = 0;
     always@(posedge clock) begin
         if(reset)begin
-            for(integer i=0; i<1024; i=i+1)begin
+            for( i=0; i<1024; i=i+1)begin
                 memory[i] <= 0;
             end
         end

@@ -30,6 +30,7 @@ module ALU_Control
                 10'b0000000111: alu_control = AND;
                 10'b0000000110: alu_control = OR;
                 default: alu_control = AND;
+                endcase
             default: alu_control = AND;   
         endcase      
     end

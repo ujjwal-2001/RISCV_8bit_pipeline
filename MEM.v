@@ -17,7 +17,7 @@ module MEM  #(parameter ADDRESS_LINE=8,  parameter DATA_MEM_SIZE=256)
     output wire PCScr
 );
 
-    assign PCScr = branch & zero;
+    assign PCScr = branch & zero ;
     assign mem_to_reg_out = mem_to_reg_in;
     assign ALU_result_out = ALU_result_in;
 

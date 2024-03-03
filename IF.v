@@ -2,29 +2,32 @@
 // `include "Instruction_Memory.v"
 // `include "MUX_2to1.v"
 
-module IF #(parameter PC_SIZE=32, parameter INST_MEM_SIZE=1024)
+module IF #(parameter PC_SIZE=10)
 (
     input wire clock,
     input wire reset,
     input wire PCScr,
+    input wire reset_memory,
     input wire [PC_SIZE-1:0] PC_jump,
+    input wire [PC_SIZE-1:0] PC_write,
+    input wire [31:0] instruction_in,
     output wire [PC_SIZE-1:0] PC_out,
-    output wire [31:0] instruction
+    output wire [31:0] instruction_out
 );
 
-    wire [PC_SIZE-1:0] PC_in;
-    reg [PC_SIZE-1:0] PC_next;
+    reg [PC_SIZE-1:0] PC_in;
+    wire [PC_SIZE-1:0] PC_next;
 
-    always@(posedge clock) begin
-        PC_next <= PC_out + 1;
+    assign PC_next = PC_out + 1;
+
+    always@(*) begin
+        if(PCScr) begin
+            PC_in = PC_jump;
+        end
+        else begin
+            PC_in = PC_next;
+        end
     end
-
-    MUX_2to1 PC_MUX(
-        .D0(PC_next),
-        .D1(PC_jump),
-        .S0(PCScr),
-        .Y(PC_in)
-    );
 
     Program_Counter #(.PC_SIZE(PC_SIZE)) PC(
         .clock(clock),
@@ -33,10 +36,13 @@ module IF #(parameter PC_SIZE=32, parameter INST_MEM_SIZE=1024)
         .PC_out(PC_out)
     );
 
-    Instruction_Memory #(.PC_SIZE(PC_SIZE), .MEM_SIZE(INST_MEM_SIZE)) IM(
+    Instruction_Memory #(.PC_SIZE(PC_SIZE)) IM(
         .read_address(PC_out),
-        .instruction(instruction),
-        .reset(reset)
+        .write_address(PC_write),
+        .instruction_out(instruction_out),
+        .instruction_in(instruction_in),
+        .reset_memory(reset_memory),
+        .clock(clock)
     );
 
 endmodule
