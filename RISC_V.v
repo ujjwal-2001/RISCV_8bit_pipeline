@@ -11,7 +11,8 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     input wire reset,
     input wire reset_IF_memory,
     input wire [PC_SIZE-1:0] PC_write,
-    input wire [31:0] instruction_in
+    input wire [31:0] instruction_in,
+    output wire [31:0] write_reg_data
 );
 
     wire [PC_SIZE-1:0] PC_jump;
@@ -29,7 +30,6 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire [7:0] read_data2;
     wire [11:0] immediate;
     wire [9:0] funct;
-    wire [7:0] write_reg_data;
 
     wire branch_EXE_out;
     wire mem_read_EXE_out;

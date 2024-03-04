@@ -2,6 +2,7 @@ module Instruction_Memory #(parameter PC_SIZE=10)
 (
     input wire [PC_SIZE-1:0] read_address,
     input wire [PC_SIZE-1:0] write_address,
+    input wire rw,
     input wire reset_memory,
     input wire clock,
     input wire [31:0] instruction_in,
@@ -220,13 +221,13 @@ module Instruction_Memory #(parameter PC_SIZE=10)
       .DI(instruction_in),         // Input write data port, width defined by WRITE_WIDTH parameter
       .RDADDR(read_address), // Input read address, width defined by read port depth
       .RDCLK(clock),   // 1-bit input read clock
-      .RDEN(1),     // 1-bit input read port enable
-      .REGCE(1),   // 1-bit input read output register enable
+      .RDEN(1'b1),     // 1-bit input read port enable
+      .REGCE(1'b1),   // 1-bit input read output register enable
       .RST(reset_memory),       // 1-bit input reset
-      .WE(1),         // Input write enable, width defined by write port depth
+      .WE(4'b1111),         // Input write enable, width defined by write port depth
       .WRADDR(write_address), // Input write address, width defined by write port depth
       .WRCLK(clock),   // 1-bit input write clock
-      .WREN(1)      // 1-bit input write port enable
+      .WREN(1'b1)      // 1-bit input write port enable
    );
 
 

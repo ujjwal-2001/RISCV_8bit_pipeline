@@ -15,7 +15,7 @@ module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
     integer i = 0;
     always@(posedge clock) begin
         if(reset)begin
-            for( i=0; i<1024; i=i+1)begin
+            for( i=0; i<MEM_SIZE; i=i+1)begin
                 memory[i] <= 0;
             end
         end
