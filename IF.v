@@ -7,6 +7,7 @@ module IF #(parameter PC_SIZE=10)
     input wire clock,
     input wire reset,
     input wire PCScr,
+    input wire rw,
     input wire reset_memory,
     input wire [PC_SIZE-1:0] PC_jump,
     input wire [PC_SIZE-1:0] PC_write,
@@ -39,6 +40,7 @@ module IF #(parameter PC_SIZE=10)
     Instruction_Memory #(.PC_SIZE(PC_SIZE)) IM(
         .read_address(PC_out),
         .write_address(PC_write),
+        .rw(rw),
         .instruction_out(instruction_out),
         .instruction_in(instruction_in),
         .reset_memory(reset_memory),

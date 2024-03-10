@@ -9,10 +9,11 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
 (
     input wire clock,
     input wire reset,
+    input wire rw,
     input wire reset_IF_memory,
     input wire [PC_SIZE-1:0] PC_write,
     input wire [31:0] instruction_in,
-    output wire [31:0] write_reg_data
+    output wire [7:0] write_reg_data
 );
 
     wire [PC_SIZE-1:0] PC_jump;
@@ -36,9 +37,14 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire mem_to_reg_EXE_out;
     wire mem_write_EXE_out;
     wire [7:0] ALU_result;
+    wire [7:0] ALU_result_MEM_out;
+    wire [7:0] mem_read_data;
     wire zero;
 
     wire mem_to_reg_MEM_out;
+    wire [7:0] write_reg_data_wire;
+
+    assign write_reg_data = write_reg_data_wire;
 
     IF #(.PC_SIZE(PC_SIZE)) IF(
         .clock(clock),
@@ -46,6 +52,7 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .reset_memory(reset_IF_memory),
         .PC_jump(PC_jump),
         .PC_out(PC_out),
+        .rw(rw),
         .PCScr(PCScr),
         .PC_write(PC_write),
         .instruction_in(instruction_in),
@@ -56,7 +63,7 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .clock(clock),
         .reset(reset),
         .instruction(instruction_out),
-        .write_reg_data(write_reg_data),
+        .write_reg_data(write_reg_data_wire),
         .branch(branch_ID_out),
         .mem_read(mem_read_ID_out),
         .mem_to_reg(mem_to_reg_ID_out),
@@ -99,18 +106,18 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .mem_write(mem_write_EXE_out),
         .zero(zero),
         .ALU_result_in(ALU_result),
-        .write_data(write_reg_data),
-        .ALU_result_out(ALU_result),
-        .read_data(read_data1),
+        .write_data(read_data2),
+        .ALU_result_out(ALU_result_MEM_out),
+        .read_data(mem_read_data),
         .mem_to_reg_out(mem_to_reg_MEM_out),
         .PCScr(PCScr)
     );
 
     WB WB(
-        .read_data(read_data1),
-        .ALU_result(ALU_result),
-        .mem_to_reg(mem_to_reg_WB_out),
-        .write_data(write_reg_data)
+        .read_data(mem_read_data),
+        .ALU_result(ALU_result_MEM_out),
+        .mem_to_reg(mem_to_reg_MEM_out),
+        .write_data(write_reg_data_wire)
     );
 
 endmodule

@@ -5,9 +5,10 @@ module TOP #(parameter PC_SIZE=10, parameter DATA_MEM_SIZE=256, parameter ADDRES
     input wire clock,
     input wire reset,
     input wire reset_IF_memory,
+    input wire rw,
     input wire [31:0] instruction_in,
     input wire [PC_SIZE-1:0] PC_write,
-    output wire [31:0] write_reg_data
+    output wire [7:0] write_reg_data
 );
 
     RISC_V #(.PC_SIZE(PC_SIZE), 
@@ -15,6 +16,7 @@ module TOP #(parameter PC_SIZE=10, parameter DATA_MEM_SIZE=256, parameter ADDRES
         RISC_V(
             .clock(clock),
             .reset(reset),
+            .rw(rw),
             .reset_IF_memory(reset_IF_memory),
             .instruction_in(instruction_in),
             .PC_write(PC_write),

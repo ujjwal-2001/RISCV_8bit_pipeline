@@ -2,14 +2,6 @@
 // `include "Control.v"
 // `include "Imm_Gen.v"
 
-// MACROS
-`define OPCODE instruction[6:0]
-`define FUNCT3 instruction[14:12]
-`define FUNCT7 instruction[31:25]
-`define RS1 instruction[19:15]
-`define RS2 instruction[24:20]
-`define RD instruction[11:7]
-
 module ID 
 (
     input wire clock,
@@ -29,11 +21,24 @@ module ID
 );
 
     wire reg_write;
+    wire [6:0] OPCODE ;
+    wire [2:0] FUNCT3 ;
+    wire [6:0] FUNCT7 ;
+    wire [4:0] RS1 ;
+    wire [4:0] RS2 ;
+    wire [4:0] RD ;
 
-    assign funct = {`FUNCT7 ,`FUNCT3};
+    assign OPCODE = instruction[6:0];
+    assign FUNCT3 =  instruction[14:12];
+    assign FUNCT7 = instruction[31:25];
+    assign RS1 = instruction[19:15];
+    assign RS2 = instruction[24:20];
+    assign RD = instruction[11:7];
+
+    assign funct = {FUNCT7 ,FUNCT3};
 
     Control CU(
-        .opcode(`OPCODE),
+        .opcode(OPCODE),
         .branch(branch),
         .mem_read(mem_read),
         .mem_to_reg(mem_to_reg),
@@ -46,9 +51,9 @@ module ID
     Registers RB(
         .clock(clock),
         .reset(reset),
-        .read_reg1(`RS1),
-        .read_reg2(`RS2),
-        .write_reg(`RD),
+        .read_reg1(RS1),
+        .read_reg2(RS2),
+        .write_reg(RD),
         .write_reg_data(write_reg_data),
         .reg_write(reg_write),
         .read_data1(read_data1),

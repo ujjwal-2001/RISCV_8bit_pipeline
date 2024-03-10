@@ -21,7 +21,7 @@ module Imm_Gen
     always@(*)begin
       
         case(`SELECT)
-            2'b00: immediate = instruction[31:20];  // l-type instruction
+            2'b00: immediate = instruction[31:20];  // I-type instruction
             2'b01: immediate = 0;   // R-type instruction
             2'b10: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
             2'b11: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
