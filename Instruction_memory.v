@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Instruction_Memory #(parameter PC_SIZE=10, INSTRUCTION_LENGTH=32)
 (
     input wire [PC_SIZE-1:0] read_address,
@@ -9,12 +11,12 @@ module Instruction_Memory #(parameter PC_SIZE=10, INSTRUCTION_LENGTH=32)
     output reg [INSTRUCTION_LENGTH-1:0] instruction_out
 );
 
-    reg [INSTRUCTION_LENGTH-1:0] Memory[1023:0]; // 1024 - 32bit instructions
+    reg [INSTRUCTION_LENGTH-1:0] Memory[99:0]; // 1024 - 32bit instructions
     integer i=0;
 
     always@(posedge clock)begin // Reseting memory
          if(reset_memory)begin
-            for(i=0; i<1024; i=i+1)begin
+            for(i=0; i<100; i=i+1)begin
                 Memory[i] <= 0;
             end
             instruction_out <= 0;

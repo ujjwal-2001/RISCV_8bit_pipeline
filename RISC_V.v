@@ -3,6 +3,7 @@
 // `include "EXE.v"
 // `include "MEM.v"
 // `include "WB.v"
+`timescale 1ns / 1ps
 
 module RISC_V #(parameter PC_SIZE=10, 
 parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)

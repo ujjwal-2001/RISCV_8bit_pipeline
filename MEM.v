@@ -1,4 +1,5 @@
 // `include "Data_Memory.v"
+`timescale 1ns / 1ps
 
 module MEM  #(parameter ADDRESS_LINE=8,  parameter DATA_MEM_SIZE=256)
 (

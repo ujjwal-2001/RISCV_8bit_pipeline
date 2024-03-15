@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module ALU_Control
 (
     input wire [1:0] alu_op,

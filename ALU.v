@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module ALU 
 (
     input wire [7:0] data1,

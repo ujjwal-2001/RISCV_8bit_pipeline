@@ -1,6 +1,7 @@
 // `include "ALU.v"
 // `include "MUX_2to1.v"
 // `include "ALU_Control.v"
+`timescale 1ns / 1ps
 
 module EXE #(parameter PC_SIZE=10)
 (
@@ -24,7 +25,7 @@ module EXE #(parameter PC_SIZE=10)
     output wire mem_write_out
 );
 
-    wire [3:0] ALU_control;
+    wire [3:0] alu_control_wire;
     wire [7:0] selected_data2;
 
     assign PC_jump = PC_out + immediate;
@@ -36,7 +37,7 @@ module EXE #(parameter PC_SIZE=10)
     ALU_Control ALU_Control(
         .funct(funct),
         .alu_op(alu_op),
-        .alu_control(ALU_control)
+        .alu_control(alu_control_wire)
     );
 
     MUX_2to1 #(.N(8)) MUX_Data2(
@@ -49,7 +50,7 @@ module EXE #(parameter PC_SIZE=10)
     ALU ALU(
         .data1(data1),
         .data2(selected_data2),
-        .ALU_control(ALU_control),
+        .ALU_control(alu_control_wire),
         .ALU_result(ALU_result),
         .zero(zero)
     );

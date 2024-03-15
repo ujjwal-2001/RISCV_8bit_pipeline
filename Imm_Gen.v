@@ -1,4 +1,4 @@
-`define SELECT instruction[6:5]
+`timescale 1ns / 1ps
 
 module Imm_Gen
 (
@@ -20,11 +20,11 @@ module Imm_Gen
 //                        | + + + + + + + | + + + + + | + + + + + | + + + | + + + + + | + + + + + + + |
     always@(*)begin
       
-        case(`SELECT)
-            2'b00: immediate = instruction[31:20];  // I-type instruction
-            2'b01: immediate = 0;   // R-type instruction
-            2'b10: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
-            2'b11: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
+        casex(instruction[6:0])
+            7'b00xxxx: immediate = instruction[31:20];  // I-type instruction
+            7'b01xxxx: immediate = 0;   // R-type instruction
+            7'b10xxxx: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
+            7'b11xxxx: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
             default: immediate = 0;
         endcase
 

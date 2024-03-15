@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Control
 (
     input wire [6:0] opcode,

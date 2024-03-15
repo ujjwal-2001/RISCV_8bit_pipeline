@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Registers
 (   
     input wire clock,

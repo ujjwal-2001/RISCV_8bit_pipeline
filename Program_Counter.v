@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Program_Counter #(parameter PC_SIZE=32)
 (   
     input wire clock,

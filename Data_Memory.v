@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
 (
     input wire clock,
