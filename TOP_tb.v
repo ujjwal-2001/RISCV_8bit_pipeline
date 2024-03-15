@@ -16,6 +16,7 @@ TOP top(
     .reset(reset),
     .reset_IF_memory(reset_IF_memory),
     .instruction_in(instruction_in),
+    .rw(rw),
     .PC_write(PC_write),
     .write_reg_data(write_reg_data)
 );
