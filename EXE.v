@@ -16,13 +16,16 @@ module EXE #(parameter PC_SIZE=10)
     input wire mem_read_in,
     input wire mem_to_reg_in,
     input wire mem_write_in,
+    input wire reg_write_in,
     output wire [PC_SIZE-1:0] PC_jump,
     output wire zero,
     output wire [7:0] ALU_result,
     output wire branch_out,
     output wire mem_read_out,
     output wire mem_to_reg_out,
-    output wire mem_write_out
+    output wire mem_write_out,
+    output wire [7:0] write_data,
+    output wire reg_write_out
 );
 
     wire [3:0] alu_control_wire;
@@ -33,6 +36,8 @@ module EXE #(parameter PC_SIZE=10)
     assign mem_read_out = mem_read_in;
     assign mem_to_reg_out = mem_to_reg_in;
     assign mem_write_out = mem_write_in;
+    assign write_data = data2;
+    assign reg_write_out = reg_write_in;
 
     ALU_Control ALU_Control(
         .funct(funct),
