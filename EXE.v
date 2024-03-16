@@ -30,7 +30,7 @@ module EXE #(parameter PC_SIZE=10)
     output reg reg_write_out
 );
 
-    wire [3:0] alu_control_wire;
+    wire [3:0] alu_control;
     wire [7:0] selected_data2;
     wire [PC_SIZE-1:0] PC_jump_wire;
     wire [7:0] ALU_result_wire;
@@ -66,7 +66,7 @@ module EXE #(parameter PC_SIZE=10)
     ALU_Control ALU_Control(
         .funct(funct),
         .alu_op(alu_op),
-        .alu_control(alu_control_wire)
+        .alu_control(alu_control)
     );
 
     MUX_2to1 #(.N(8)) MUX_Data2(
@@ -79,7 +79,7 @@ module EXE #(parameter PC_SIZE=10)
     ALU ALU(
         .data1(data1),
         .data2(selected_data2),
-        .ALU_control(alu_control_wire),
+        .ALU_control(alu_control),
         .ALU_result(ALU_result_wire),
         .zero(zero_wire)
     );

@@ -10,7 +10,6 @@ module ID #(parameter PC_SIZE=10)
     input wire [PC_SIZE-1:0] PC_out_in,
     input wire [31:0] instruction,
     input wire [7:0] write_reg_data,
-    input wire [4:0] write_register,
     input wire reg_write_in,
     output reg reg_write_out,
     output reg branch,
@@ -84,16 +83,17 @@ module ID #(parameter PC_SIZE=10)
         end
     end
 
-    reg q1,q2;
-    reg write_register_temp;
+    wire [4:0] write_register;
+    reg [4:0] q1,q2;
+    reg [4:0] write_register_temp;
 
     assign write_register = write_register_temp;
 
     always@(posedge clock)begin
         if (reset) begin
-            q1 <= 0;
-            q2 <= 0;
-            write_register_temp <= 0;
+            q1 <= 5'b0;
+            q2 <= 5'b0;
+            write_register_temp <= 5'b0;
         end else begin
             q1 <= RD;
             q2 <= q1;
