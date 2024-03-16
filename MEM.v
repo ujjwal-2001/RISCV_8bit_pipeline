@@ -13,17 +13,30 @@ module MEM  #(parameter ADDRESS_LINE=8,  parameter DATA_MEM_SIZE=256)
     input wire zero,
     input wire [7:0] ALU_result_in,
     input wire [7:0] write_data,
-    output wire [7:0] ALU_result_out,
-    output wire [7:0] read_data,
-    output wire mem_to_reg_out,
+    output reg [7:0] ALU_result_out,
+    output reg [7:0] read_data,
+    output reg mem_to_reg_out,
     output wire PCScr,
-    output wire reg_write_out
+    output reg reg_write_out
 );
 
+    wire [7:0] read_data_wire;
+
     assign PCScr = branch & zero ;
-    assign mem_to_reg_out = mem_to_reg_in;
-    assign ALU_result_out = ALU_result_in;
-    assign reg_write_out = reg_write_in;
+
+    always@(posedge clock)begin
+        if(reset)begin
+            mem_to_reg_out <= 0;
+            ALU_result_out <= 0;
+            reg_write_out <= 0;
+            read_data <= 0;
+        end else begin
+            mem_to_reg_out <= mem_to_reg_in;
+            ALU_result_out <= ALU_result_in;
+            reg_write_out <= reg_write_in;
+            read_data <= read_data_wire;
+        end
+    end
 
     Data_Memory  #(.ADDRESS_LINE(ADDRESS_LINE),.MEM_SIZE(DATA_MEM_SIZE)) DM(
         .clock(clock),
@@ -32,7 +45,7 @@ module MEM  #(parameter ADDRESS_LINE=8,  parameter DATA_MEM_SIZE=256)
         .address(ALU_result_in),
         .mem_write(mem_write),
         .mem_read(mem_read),
-        .read_data(read_data)
+        .read_data(read_data_wire)
     );
 
 

@@ -87,6 +87,8 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     );
 
     EXE #(.PC_SIZE(PC_SIZE)) EXE(
+        .clock(clock),
+        .reset(reset),
         .PC_out(PC_out_ID_out),
         .data1(read_data1),
         .data2(read_data2),

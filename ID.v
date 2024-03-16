@@ -1,6 +1,6 @@
-// `include "Registers.v"
-// `include "Control.v"
-// `include "Imm_Gen.v"
+`include "Registers.v"
+`include "Control.v"
+`include "Imm_Gen.v"
 `timescale 1ns / 1ps
 
 module ID #(parameter PC_SIZE=10)
@@ -10,28 +10,40 @@ module ID #(parameter PC_SIZE=10)
     input wire [PC_SIZE-1:0] PC_out_in,
     input wire [31:0] instruction,
     input wire [7:0] write_reg_data,
+    input wire [4:0] write_register,
     input wire reg_write_in,
-    output wire branch,
-    output wire mem_read,
-    output wire mem_to_reg,
-    output wire [1:0] alu_op,
-    output wire reg_write_out,
-    output wire mem_write,
-    output wire alu_src,
-    input wire [PC_SIZE-1:0] PC_out_out,
-    output wire [7:0] read_data1,
-    output wire [7:0] read_data2,
-    output wire [11:0] immediate,
-    output wire [9:0] funct
+    output reg reg_write_out,
+    output reg branch,
+    output reg mem_read,
+    output reg mem_to_reg,
+    output reg [1:0] alu_op,
+    output reg mem_write,
+    output reg alu_src,
+    output reg [PC_SIZE-1:0] PC_out_out,
+    output reg [7:0] read_data1,
+    output reg [7:0] read_data2,
+    output reg [11:0] immediate,
+    output reg [9:0] funct
 );
 
-    wire reg_write;
     wire [6:0] OPCODE ;
     wire [2:0] FUNCT3 ;
     wire [6:0] FUNCT7 ;
     wire [4:0] RS1 ;
     wire [4:0] RS2 ;
     wire [4:0] RD ;
+    wire branch_wire;
+    wire mem_read_wire;
+    wire mem_to_reg_wire;
+    wire [1:0] alu_op_wire;
+    wire mem_write_wire;
+    wire alu_src_wire;
+    wire reg_write_wire;
+    wire [7:0] read_data1_wire;
+    wire [7:0] read_data2_wire;
+    wire [11:0] immediate_wire;
+    wire [9:0] funct_wire;
+
 
     assign OPCODE = instruction[6:0];
     assign FUNCT3 =  instruction[14:12];
@@ -40,17 +52,64 @@ module ID #(parameter PC_SIZE=10)
     assign RS2 = instruction[24:20];
     assign RD = instruction[11:7];
 
-    assign funct = {FUNCT7 ,FUNCT3};
+    assign funct_wire = {FUNCT7 ,FUNCT3};
+
+    always@(posedge clock)begin
+        if(reset)begin
+            PC_out_out <= 0;
+            branch <= 0;
+            mem_read <= 0;
+            mem_to_reg <= 0;
+            alu_op <= 0;
+            mem_write <= 0;
+            alu_src <= 0;
+            read_data1 <= 0;
+            read_data2 <= 0;
+            immediate <= 0;
+            funct <= 0;
+            reg_write_out <=0;
+        end else begin
+            PC_out_out <= PC_out_in;
+            branch <= branch_wire;
+            mem_read <= mem_read_wire;
+            mem_to_reg <= mem_to_reg_wire;
+            alu_op <= alu_op_wire;
+            mem_write <= mem_write_wire;
+            alu_src <= alu_src_wire;
+            read_data1 <= read_data1_wire;
+            read_data2 <= read_data2_wire;
+            immediate <= immediate_wire;
+            funct <= funct_wire;
+            reg_write_out <= reg_write_wire;
+        end
+    end
+
+    reg q1,q2;
+    reg write_register_temp;
+
+    assign write_register = write_register_temp;
+
+    always@(posedge clock)begin
+        if (reset) begin
+            q1 <= 0;
+            q2 <= 0;
+            write_register_temp <= 0;
+        end else begin
+            q1 <= RD;
+            q2 <= q1;
+            write_register_temp <= q2;
+        end
+    end
 
     Control CU(
         .opcode(OPCODE),
-        .branch(branch),
-        .mem_read(mem_read),
-        .mem_to_reg(mem_to_reg),
-        .alu_op(alu_op),
-        .mem_write(mem_write),
-        .alu_src(alu_src),
-        .reg_write(reg_write_out)
+        .branch(branch_wire),
+        .mem_read(mem_read_wire),
+        .mem_to_reg(mem_to_reg_wire),
+        .alu_op(alu_op_wire),
+        .mem_write(mem_write_wire),
+        .alu_src(alu_src_wire),
+        .reg_write(reg_write_wire)
     );
 
     Registers RB(
@@ -58,16 +117,16 @@ module ID #(parameter PC_SIZE=10)
         .reset(reset),
         .read_reg1(RS1),
         .read_reg2(RS2),
-        .write_reg(RD),
+        .write_reg(write_register),
         .write_reg_data(write_reg_data),
         .reg_write(reg_write_in),
-        .read_data1(read_data1),
-        .read_data2(read_data2)
+        .read_data1(read_data1_wire),
+        .read_data2(read_data2_wire)
     );
 
     Imm_Gen Immediate_Generator(
         .instruction(instruction),
-        .immediate(immediate)
+        .immediate(immediate_wire)
     );
 
 
