@@ -3,10 +3,10 @@ module Forwarding_Unit (
     input wire [4:0] reg_RS2,
     input wire [4:0] ex_mem_reg_RD,
     input wire [4:0] mem_wb_reg_RD,
-    input wire [31:0] ex_mem_regwrite,
-    input wire [31:0] mem_wb_regwrite,
-    output wire [31:0] fwd_A,
-    output wire [31:0] fwd_B
+    input wire ex_mem_regwrite,
+    input wire mem_wb_regwrite,
+    output wire [1:0] fwd_A,
+    output wire [1:0] fwd_B
 );
 
     always@(*) begin
