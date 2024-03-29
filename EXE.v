@@ -19,6 +19,8 @@ module EXE #(parameter PC_SIZE=10)
     input wire mem_to_reg_in,
     input wire mem_write_in,
     input wire reg_write_in,
+    input wire [4:0] write_register_in,
+    output reg [4:0] write_register_out,
     output reg [PC_SIZE-1:0] PC_jump,
     output reg zero,
     output reg [7:0] ALU_result,
@@ -49,6 +51,7 @@ module EXE #(parameter PC_SIZE=10)
             write_data <= 0;
             ALU_result <= 0;
             zero <= 0;
+            write_register_out <= 0;
         end else begin
             PC_jump <= PC_jump_wire;
             branch_out <= branch_in;
@@ -59,6 +62,7 @@ module EXE #(parameter PC_SIZE=10)
             write_data <= data2;
             ALU_result <= ALU_result_wire;
             zero <= zero_wire;
+            write_register_out <= write_register_in;
          end
     end
   

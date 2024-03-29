@@ -34,6 +34,7 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire [9:0] funct;
     wire [PC_SIZE-1:0] PC_out_ID_out;
     wire reg_write_ID_out;
+    wire [4:0] write_register_ID_out;
 
     wire branch_EXE_out;
     wire mem_read_EXE_out;
@@ -45,9 +46,11 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire zero;
     wire [7:0] write_data_EXE_out;
     wire reg_write_EXE_out;
+    wire [4:0] write_register_EXE_out;
 
     wire mem_to_reg_MEM_out;
     wire [7:0] write_reg_data_wire;
+    wire [4:0] reg_write_MEM_out;
     wire reg_write_WB_out;
 
     assign write_reg_data = write_reg_data_wire;
@@ -73,6 +76,8 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .write_reg_data(write_reg_data_wire),
         .branch(branch_ID_out),
         .reg_write_in(reg_write_WB_out),
+        .write_register_in(write_data_MEM_out),
+        .write_register_out(write_register_ID_out),
         .mem_read(mem_read_ID_out),
         .mem_to_reg(mem_to_reg_ID_out),
         .alu_op(alu_op),
@@ -101,6 +106,7 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .mem_to_reg_in(mem_to_reg_ID_out),
         .mem_write_in(mem_write_ID_out),
         .reg_write_in(reg_write_ID_out),
+        .write_register_in(write_register_ID_out),
         .PC_jump(PC_jump),
         .zero(zero),
         .ALU_result(ALU_result),
@@ -109,7 +115,8 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .mem_to_reg_out(mem_to_reg_EXE_out),
         .mem_write_out(mem_write_EXE_out),
         .write_data(write_data_EXE_out),
-        .reg_write_out(reg_write_EXE_out)
+        .reg_write_out(reg_write_EXE_out),
+        .write_register_out(write_register_EXE_out)
     );
 
     MEM #(.ADDRESS_LINE(ADDRESS_LINE), .DATA_MEM_SIZE(DATA_MEM_SIZE)) MEM(
@@ -122,12 +129,14 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .mem_write(mem_write_EXE_out),
         .zero(zero),
         .ALU_result_in(ALU_result),
+        .write_register_in(write_register_EXE_out),
         .write_data(write_data_EXE_out),
         .ALU_result_out(ALU_result_MEM_out),
         .read_data(mem_read_data),
         .mem_to_reg_out(mem_to_reg_MEM_out),
         .PCScr(PCScr),
-        .reg_write_out(reg_write_WB_out)
+        .reg_write_out(reg_write_WB_out),
+        .write_register_out(write_register_MEM_out)
     );
 
     WB WB(

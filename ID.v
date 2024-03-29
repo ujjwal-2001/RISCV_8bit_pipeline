@@ -1,6 +1,6 @@
-`include "Registers.v"
-`include "Control.v"
-`include "Imm_Gen.v"
+// `include "Registers.v"
+// `include "Control.v"
+// `include "Imm_Gen.v"
 `timescale 1ns / 1ps
 
 module ID #(parameter PC_SIZE=10)
@@ -11,6 +11,8 @@ module ID #(parameter PC_SIZE=10)
     input wire [31:0] instruction,
     input wire [7:0] write_reg_data,
     input wire reg_write_in,
+    input wire [4:0] write_register_in,
+    output reg [4:0] write_register_out,
     output reg reg_write_out,
     output reg branch,
     output reg mem_read,
@@ -67,6 +69,7 @@ module ID #(parameter PC_SIZE=10)
             immediate <= 0;
             funct <= 0;
             reg_write_out <=0;
+            write_register_out <= 0;
         end else begin
             PC_out_out <= PC_out_in;
             branch <= branch_wire;
@@ -80,24 +83,7 @@ module ID #(parameter PC_SIZE=10)
             immediate <= immediate_wire;
             funct <= funct_wire;
             reg_write_out <= reg_write_wire;
-        end
-    end
-
-    wire [4:0] write_register;
-    reg [4:0] q1,q2;
-    reg [4:0] write_register_temp;
-
-    assign write_register = write_register_temp;
-
-    always@(posedge clock)begin
-        if (reset) begin
-            q1 <= 5'b0;
-            q2 <= 5'b0;
-            write_register_temp <= 5'b0;
-        end else begin
-            q1 <= RD;
-            q2 <= q1;
-            write_register_temp <= q2;
+            write_register_out <= RD;
         end
     end
 
@@ -117,7 +103,7 @@ module ID #(parameter PC_SIZE=10)
         .reset(reset),
         .read_reg1(RS1),
         .read_reg2(RS2),
-        .write_reg(write_register),
+        .write_reg(write_register_in),
         .write_reg_data(write_reg_data),
         .reg_write(reg_write_in),
         .read_data1(read_data1_wire),
