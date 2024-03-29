@@ -12,6 +12,8 @@ module ID #(parameter PC_SIZE=10)
     input wire [7:0] write_reg_data,
     input wire reg_write_in,
     input wire [4:0] write_register_in,
+    output wire [4:0] RS1 ;
+    output wire [4:0] RS2 ;
     output reg [4:0] write_register_out,
     output reg reg_write_out,
     output reg branch,
@@ -30,8 +32,6 @@ module ID #(parameter PC_SIZE=10)
     wire [6:0] OPCODE ;
     wire [2:0] FUNCT3 ;
     wire [6:0] FUNCT7 ;
-    wire [4:0] RS1 ;
-    wire [4:0] RS2 ;
     wire [4:0] RD ;
     wire branch_wire;
     wire mem_read_wire;

@@ -19,7 +19,11 @@ module EXE #(parameter PC_SIZE=10)
     input wire mem_to_reg_in,
     input wire mem_write_in,
     input wire reg_write_in,
+    input wire [1:0] fwd_A,
+    input wire [1:0] fwd_B,
     input wire [4:0] write_register_in,
+    input wire [7:0] wb_write_data,
+    input wire [7:0] ex_mem_alu_result,
     output reg [4:0] write_register_out,
     output reg [PC_SIZE-1:0] PC_jump,
     output reg zero,
@@ -33,7 +37,9 @@ module EXE #(parameter PC_SIZE=10)
 );
 
     wire [3:0] alu_control;
+    wire [7:0] intermediate_data2;
     wire [7:0] selected_data2;
+    wire [7:0] selected_data1;
     wire [PC_SIZE-1:0] PC_jump_wire;
     wire [7:0] ALU_result_wire;
     wire zero_wire;
@@ -65,6 +71,29 @@ module EXE #(parameter PC_SIZE=10)
             write_register_out <= write_register_in;
          end
     end
+
+    MUX_2to1 #(.N(8)) MUX_Data2(
+        .D0(data2),
+        .D1(immediate[7:0]),
+        .S0(alu_src),
+        .Y(intermediate_data2)
+    );
+
+    always(*)begin
+        case(fwd_A)                                     // Source
+            2'b00: selected_data1 = data1;              // ID/EX
+            2'b01: selected_data1 = wb_write_data;      // MEM/WB
+            2'b10: selected_data1 = ex_mem_alu_result;  // EX/MEM
+            default: selected_data1 = 8'b0;
+        endcase
+
+        case(fwd_B)                                     // Source        
+            2'b00: selected_data2 = intermediate_data2; // ID/EXE
+            2'b01: selected_data2 = wb_write_data;      //  MEM/WB
+            2'b10: selected_data2 = ex_mem_alu_result;  //  EX/MEM
+            default: selected_data2 = 8'b0;
+        endcase
+    end
   
 
     ALU_Control ALU_Control(
@@ -73,15 +102,8 @@ module EXE #(parameter PC_SIZE=10)
         .alu_control(alu_control)
     );
 
-    MUX_2to1 #(.N(8)) MUX_Data2(
-        .D0(data2),
-        .D1(immediate[7:0]),
-        .S0(alu_src),
-        .Y(selected_data2)
-    );
-
     ALU ALU(
-        .data1(data1),
+        .data1(selected_data1),
         .data2(selected_data2),
         .ALU_control(alu_control),
         .ALU_result(ALU_result_wire),
