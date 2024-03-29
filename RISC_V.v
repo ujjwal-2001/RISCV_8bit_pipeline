@@ -51,7 +51,13 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire mem_to_reg_MEM_out;
     wire [7:0] write_reg_data_wire;
     wire [4:0] reg_write_MEM_out;
+
     wire reg_write_WB_out;
+
+    wire [1:0] fwd_A;
+    wire [1:0] fwd_B;
+    wire [4:0] rs1;
+    wire [4:0] rs2;
 
     assign write_reg_data = write_reg_data_wire;
 
@@ -76,8 +82,10 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .write_reg_data(write_reg_data_wire),
         .branch(branch_ID_out),
         .reg_write_in(reg_write_WB_out),
-        .write_register_in(write_data_MEM_out),
+        .write_register_in(write_register_MEM_out),
         .write_register_out(write_register_ID_out),
+        .rs1(rs1),
+        .rs2(rs2),
         .mem_read(mem_read_ID_out),
         .mem_to_reg(mem_to_reg_ID_out),
         .alu_op(alu_op),
@@ -101,6 +109,10 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .funct(funct),
         .alu_op(alu_op),
         .alu_src(alu_src),
+        .fwd_A(fwd_A),
+        .fwd_B(fwd_B),
+        .ex_mem_alu_result(ALU_result),
+        .wb_write_data(write_reg_data_wire),
         .branch_in(branch_ID_out),
         .mem_read_in(mem_read_ID_out),
         .mem_to_reg_in(mem_to_reg_ID_out),
@@ -144,6 +156,17 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
         .ALU_result(ALU_result_MEM_out),
         .mem_to_reg(mem_to_reg_MEM_out),
         .write_data(write_reg_data_wire)
+    );
+
+    Forwarding_Unit Forwarding_Unit(
+    .reg_RS1(rs1),
+    .reg_RS2(rs2),
+    .ex_mem_reg_RD(write_register_EXE_out),
+    .mem_wb_reg_RD(write_register_MEM_out),
+    .ex_mem_regwrite(mem_to_reg_EXE_out),
+    .mem_wb_regwrite(mem_to_reg_MEM_out),
+    .fwd_A(fwd_A),
+    .fwd_B(fwd_B)
     );
 
 endmodule

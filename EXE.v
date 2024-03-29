@@ -38,8 +38,8 @@ module EXE #(parameter PC_SIZE=10)
 
     wire [3:0] alu_control;
     wire [7:0] intermediate_data2;
-    wire [7:0] selected_data2;
-    wire [7:0] selected_data1;
+    reg [7:0] selected_data2;
+    reg [7:0] selected_data1;
     wire [PC_SIZE-1:0] PC_jump_wire;
     wire [7:0] ALU_result_wire;
     wire zero_wire;
@@ -79,7 +79,7 @@ module EXE #(parameter PC_SIZE=10)
         .Y(intermediate_data2)
     );
 
-    always(*)begin
+    always@(*)begin
         case(fwd_A)                                     // Source
             2'b00: selected_data1 = data1;              // ID/EX
             2'b01: selected_data1 = wb_write_data;      // MEM/WB

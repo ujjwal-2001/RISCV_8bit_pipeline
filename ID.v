@@ -12,8 +12,8 @@ module ID #(parameter PC_SIZE=10)
     input wire [7:0] write_reg_data,
     input wire reg_write_in,
     input wire [4:0] write_register_in,
-    output wire [4:0] RS1 ;
-    output wire [4:0] RS2 ;
+    output reg [4:0] rs1 ,
+    output reg [4:0] rs2 ,
     output reg [4:0] write_register_out,
     output reg reg_write_out,
     output reg branch,
@@ -33,6 +33,8 @@ module ID #(parameter PC_SIZE=10)
     wire [2:0] FUNCT3 ;
     wire [6:0] FUNCT7 ;
     wire [4:0] RD ;
+    wire [4:0] RS1 ;
+    wire [4:0] RS2 ;
     wire branch_wire;
     wire mem_read_wire;
     wire mem_to_reg_wire;
@@ -70,6 +72,8 @@ module ID #(parameter PC_SIZE=10)
             funct <= 0;
             reg_write_out <=0;
             write_register_out <= 0;
+            rs1 <= 0;
+            rs2 <= 0;
         end else begin
             PC_out_out <= PC_out_in;
             branch <= branch_wire;
@@ -84,6 +88,8 @@ module ID #(parameter PC_SIZE=10)
             funct <= funct_wire;
             reg_write_out <= reg_write_wire;
             write_register_out <= RD;
+            rs1 <= RS1;
+            rs2 <= RS2;
         end
     end
 
