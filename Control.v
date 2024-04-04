@@ -18,7 +18,7 @@ module Control
 //| ld          |    1   |     1     |     1     |     1    |     0     |    0   |    0   |    0   |
 //| sd          |    1   |     X     |     0     |     0    |     1     |    0   |    0   |    0   |
 //| beq         |    0   |     X     |     0     |     0    |     0     |    1   |    0   |    1   |
-//| jal         |    1   |     0     |     1     |     0    |     0     |    0   |    1   |    1   |
+//| jal         |    1   |     0     |     1     |     0    |     0     |    1   |    1   |    1   |
 
 
     always @* begin
@@ -59,8 +59,8 @@ module Control
                 alu_src = 0;
                 reg_write = 0;
             end
-            7'b10100011: begin // jal
-                branch = 0;
+            7'b1101111: begin // jal
+                branch = 1;
                 mem_read = 0;
                 mem_to_reg = 0;
                 alu_op = 2'b11;

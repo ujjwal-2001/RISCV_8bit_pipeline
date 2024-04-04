@@ -20,8 +20,17 @@ module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
             for( i=0; i<MEM_SIZE; i=i+1)begin
                 memory[i] <= 0;
             end
-            memory[1] <= 5;
-            memory[2] <= 6;
+            memory[0] <= 1;
+            memory[1] <= 6;
+            memory[2] <= 10;
+            memory[3] <= 11;
+            memory[4] <= 14;
+            memory[5] <= 4;
+            memory[6] <= 8;
+            memory[7] <= 0;
+            memory[8] <= 1;
+            memory[9] <= 3;
+            memory[10] <= 5;
         end
         else begin
             if(mem_write)begin

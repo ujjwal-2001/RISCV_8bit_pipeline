@@ -18,13 +18,16 @@ module Imm_Gen
 //                        | + + + + + + + | + + + + + | + + + + + | + + + | + + + + + | + + + + + + + |
 // (d) SB-type            |  immed[11:5]  |    rs2    |    rs1    |funct3 |immed[4:0] |    opcode     |                                                 
 //                        | + + + + + + + | + + + + + | + + + + + | + + + | + + + + + | + + + + + + + |
+// (e) UJ-type            |          immediate        | x x x x x | x x x | x x x x x |    opcode     |                                                 
+//                        | + + + + + + + | + + + + + | + + + + + | + + + | + + + + + | + + + + + + + |
     always@(*)begin
       
         casex(instruction[6:0])
-            7'b00xxxx: immediate = instruction[31:20];  // I-type instruction
-            7'b01xxxx: immediate = 0;   // R-type instruction
-            7'b10xxxx: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
-            7'b11xxxx: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
+            7'b000xxx: immediate = instruction[31:20];  // I-type instruction
+            7'b011xxx: immediate = 0;   // R-type instruction
+            7'b010xxx: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
+            7'b1100xx: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
+            7'b1101xx: immediate =  instruction[31:20]; // UJ-type instruction
             default: immediate = 0;
         endcase
 

@@ -15,7 +15,7 @@ module ALU
     parameter XOR = 4'b0011;
     parameter NOT = 4'b0100;
     parameter SUBTRACT = 4'b0110;
-    parameter JUMP = 4'b1000;
+    parameter JUMP = 4'b1100;
 
     assign zero = (ALU_result == 0) ? 1'b1 : 1'b0;
 
