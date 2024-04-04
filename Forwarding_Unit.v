@@ -11,26 +11,35 @@ module Forwarding_Unit (
 
     always@(*) begin
         // forwarding condition for EX hazard
-        if(ex_mem_regwrite && (ex_mem_reg_RD != 0)) begin
-            if((ex_mem_reg_RD == reg_RS1)) begin
+        if((ex_mem_regwrite && (ex_mem_reg_RD != 0))||(mem_wb_regwrite && (mem_wb_reg_RD != 0))) begin
+            
+            if(ex_mem_reg_RD == reg_RS1) begin
                 fwd_A = 2'b10;
+            end 
+            else if(mem_wb_reg_RD == reg_RS1) begin
+                fwd_A = 2'b01;
+            end 
+            else begin
+                fwd_A = 2'b00;
             end
-            if((ex_mem_reg_RD == reg_RS2)) begin
+
+            if(ex_mem_reg_RD == reg_RS2) begin
                 fwd_B = 2'b10;
+            end 
+            else if(mem_wb_reg_RD == reg_RS2) begin
+                fwd_B = 2'b01;
+            end 
+            else begin
+                fwd_B = 2'b00;
             end
-        end else if(mem_wb_regwrite && (mem_wb_reg_RD != 0)) begin // forwarding condition for MEM hazard
-            if (!(ex_mem_regwrite && (ex_mem_reg_RD != 0))) begin
-                if((ex_mem_reg_RD == reg_RS1) && (mem_wb_reg_RD == reg_RS1)) begin
-                    fwd_A = 2'b01;
-                end
-                if((ex_mem_reg_RD == reg_RS2) && (mem_wb_reg_RD == reg_RS2)) begin
-                    fwd_B = 2'b01;
-                end
-            end
-        end else begin
-            fwd_A = 0; 
-            fwd_B = 0; 
+            
+
+        end 
+        else begin
+            fwd_A = 2'b00;
+            fwd_B = 2'b00;
         end
+
     end
 
 endmodule

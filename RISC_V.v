@@ -51,6 +51,7 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     wire mem_to_reg_MEM_out;
     wire [7:0] write_reg_data_wire;
     wire [4:0] reg_write_MEM_out;
+    wire [4:0] write_register_MEM_out;
 
     wire reg_write_WB_out;
 
