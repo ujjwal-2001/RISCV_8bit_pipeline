@@ -50,7 +50,6 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
 
     wire mem_to_reg_MEM_out;
     wire [7:0] write_reg_data_wire;
-    wire [4:0] reg_write_MEM_out;
     wire [4:0] write_register_MEM_out;
 
     wire reg_write_WB_out;
@@ -164,8 +163,8 @@ parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)
     .reg_RS2(rs2),
     .ex_mem_reg_RD(write_register_EXE_out),
     .mem_wb_reg_RD(write_register_MEM_out),
-    .ex_mem_regwrite(mem_to_reg_EXE_out),
-    .mem_wb_regwrite(mem_to_reg_MEM_out),
+    .ex_mem_regwrite(reg_write_EXE_out),
+    .mem_wb_regwrite(reg_write_WB_out),
     .fwd_A(fwd_A),
     .fwd_B(fwd_B)
     );

@@ -23,8 +23,8 @@ module ID #(parameter PC_SIZE=10)
     output reg mem_write,
     output reg alu_src,
     output reg [PC_SIZE-1:0] PC_out_out,
-    output reg [7:0] read_data1,
-    output reg [7:0] read_data2,
+    output wire [7:0] read_data1,
+    output wire [7:0] read_data2,
     output reg [11:0] immediate,
     output reg [9:0] funct
 );
@@ -42,8 +42,6 @@ module ID #(parameter PC_SIZE=10)
     wire mem_write_wire;
     wire alu_src_wire;
     wire reg_write_wire;
-    wire [7:0] read_data1_wire;
-    wire [7:0] read_data2_wire;
     wire [11:0] immediate_wire;
     wire [9:0] funct_wire;
 
@@ -66,8 +64,6 @@ module ID #(parameter PC_SIZE=10)
             alu_op <= 0;
             mem_write <= 0;
             alu_src <= 0;
-            read_data1 <= 0;
-            read_data2 <= 0;
             immediate <= 0;
             funct <= 0;
             reg_write_out <=0;
@@ -82,8 +78,6 @@ module ID #(parameter PC_SIZE=10)
             alu_op <= alu_op_wire;
             mem_write <= mem_write_wire;
             alu_src <= alu_src_wire;
-            read_data1 <= read_data1_wire;
-            read_data2 <= read_data2_wire;
             immediate <= immediate_wire;
             funct <= funct_wire;
             reg_write_out <= reg_write_wire;
@@ -112,8 +106,8 @@ module ID #(parameter PC_SIZE=10)
         .write_reg(write_register_in),
         .write_reg_data(write_reg_data),
         .reg_write(reg_write_in),
-        .read_data1(read_data1_wire),
-        .read_data2(read_data2_wire)
+        .read_data1(read_data1),
+        .read_data2(read_data2)
     );
 
     Imm_Gen Immediate_Generator(

@@ -21,7 +21,7 @@ module Data_Memory #(parameter ADDRESS_LINE=8,  parameter MEM_SIZE=256)
                 memory[i] <= 0;
             end
             memory[0] <= 1;
-            memory[1] <= 6;
+            memory[1] <= 7;
             memory[2] <= 10;
             memory[3] <= 11;
             memory[4] <= 14;

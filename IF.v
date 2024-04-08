@@ -14,7 +14,7 @@ module IF #(parameter PC_SIZE=10)
     input wire [PC_SIZE-1:0] PC_write,
     input wire [31:0] instruction_in,
     output reg [PC_SIZE-1:0] PC_out,
-    output reg [31:0] instruction_out
+    output wire [31:0] instruction_out
 );
 
     reg [PC_SIZE-1:0] PC_in;
@@ -36,11 +36,9 @@ module IF #(parameter PC_SIZE=10)
     always@(posedge clock) begin
         if(reset)begin
             PC_out <= 0;
-            instruction_out <= 0;
         end
         else begin
             PC_out <= PC_out_wire;
-            instruction_out <= instruction_out_wire;
         end
     end
 
@@ -55,7 +53,7 @@ module IF #(parameter PC_SIZE=10)
         .read_address(PC_out_wire),
         .write_address(PC_write),
         .rw(rw),
-        .instruction_out(instruction_out_wire),
+        .instruction_out(instruction_out),
         .instruction_in(instruction_in),
         .reset_memory(reset_memory),
         .clock(clock)

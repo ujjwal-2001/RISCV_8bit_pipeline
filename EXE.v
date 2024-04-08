@@ -39,12 +39,14 @@ module EXE #(parameter PC_SIZE=10)
     wire [3:0] alu_control;
     wire [7:0] intermediate_data2;
     reg [7:0] selected_data2;
+    wire [7:0] selected_data2_final;
     reg [7:0] selected_data1;
     wire [PC_SIZE-1:0] PC_jump_wire;
     wire [7:0] ALU_result_wire;
     wire zero_wire;
 
     assign PC_jump_wire = PC_out + immediate;
+    assign selected_data2_final = (alu_src) ? intermediate_data2 : selected_data2;
 
     always@(posedge clock)begin
         if (reset)begin
@@ -65,7 +67,7 @@ module EXE #(parameter PC_SIZE=10)
             mem_to_reg_out <= mem_to_reg_in;
             mem_write_out <= mem_write_in;
             reg_write_out <= reg_write_in;
-            write_data <= data2;
+            write_data <= selected_data2;
             ALU_result <= ALU_result_wire;
             zero <= zero_wire;
             write_register_out <= write_register_in;
@@ -87,7 +89,7 @@ module EXE #(parameter PC_SIZE=10)
             default: selected_data1 = 8'b0;
         endcase
 
-        case(fwd_B)                                     // Source        
+        casex(fwd_B)                                     // Source    
             2'b00: selected_data2 = intermediate_data2; // ID/EXE
             2'b01: selected_data2 = wb_write_data;      //  MEM/WB
             2'b10: selected_data2 = ex_mem_alu_result;  //  EX/MEM
@@ -104,7 +106,7 @@ module EXE #(parameter PC_SIZE=10)
 
     ALU ALU(
         .data1(selected_data1),
-        .data2(selected_data2),
+        .data2(selected_data2_final),
         .ALU_control(alu_control),
         .ALU_result(ALU_result_wire),
         .zero(zero_wire)

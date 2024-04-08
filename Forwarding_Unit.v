@@ -10,7 +10,7 @@ module Forwarding_Unit (
 );
 
     always@(*) begin
-        // forwarding condition for EX hazard
+
         if((ex_mem_regwrite && (ex_mem_reg_RD != 0))||(mem_wb_regwrite && (mem_wb_reg_RD != 0))) begin
             
             if(ex_mem_reg_RD == reg_RS1) begin
@@ -32,7 +32,6 @@ module Forwarding_Unit (
             else begin
                 fwd_B = 2'b00;
             end
-            
 
         end 
         else begin

@@ -23,11 +23,11 @@ module Imm_Gen
     always@(*)begin
       
         casex(instruction[6:0])
-            7'b000xxx: immediate = instruction[31:20];  // I-type instruction
-            7'b011xxx: immediate = 0;   // R-type instruction
-            7'b010xxx: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
-            7'b1100xx: immediate =  {instruction[31:25], instruction[11:7]}; // SB-type instruction
-            7'b1101xx: immediate =  instruction[31:20]; // UJ-type instruction
+            7'b000_xxxx: immediate = instruction[31:20];  // I-type instruction
+            7'b011_xxxx: immediate = 0;   // R-type instruction
+            7'b010_xxxx: immediate = {instruction[31:25], instruction[11:7]}; // S-type instruction
+            7'b110_0xxx: immediate = {instruction[31:25], instruction[11:7]}; // SB-type instruction
+            7'b110_1xxx: immediate =  instruction[31:20]; // UJ-type instruction
             default: immediate = 0;
         endcase
 
