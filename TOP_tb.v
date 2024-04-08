@@ -48,13 +48,13 @@ initial begin
     
     #10 PC_write = 10'd12; instruction_in = 32'b0100000_00010_00011_000_00011_0110011; // sub r3, r2, r3 : r3 = r2 - r3
     #10 PC_write = 10'd13; instruction_in = 32'b0000000_00011_00001_000_00000_0100011; // sd r3, 0, r1 : MEM[0+r1] = r3 
-    #10 PC_write = 10'd14; instruction_in = 32'b000000000011_00000_000_00000_1101111;  // jal 4 : PC = PC + 5
+    #10 PC_write = 10'd14; instruction_in = 32'b000000000110_00000_000_00000_1101111;  // jal 4 : PC = PC + 5
 
     #10 PC_write = 10'd18; instruction_in = 32'b0000000_00010_00011_000_00011_0110011; // add r3, r2, r3 : r3 = r2 + r3
     #10 PC_write = 10'd19; instruction_in = 32'b0000000_00011_00001_000_00000_0100011; // sd r3, 0, r1 : MEM[0+r1] = r3 
     
     #10 PC_write = 10'd20; instruction_in = 32'b0000000_00010_00001_000_00001_0110011; // add r1, r2, r1 : r1 = r2 + r1
-
+    #10 PC_write = 10'd21; instruction_in = 32'b001111101110_00000_000_00000_1101111;  // jal 4 : PC = PC + 238
 
 
 
