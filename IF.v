@@ -1,6 +1,3 @@
-// `include "Program_Counter.v"
-// `include "Instruction_Memory.v"
-// `include "MUX_2to1.v"
 `timescale 1ns / 1ps
 
 module IF #(parameter PC_SIZE=10)

@@ -1,4 +1,3 @@
-// `include "MUX_2to1.v"
 `timescale 1ns / 1ps
 
 module WB

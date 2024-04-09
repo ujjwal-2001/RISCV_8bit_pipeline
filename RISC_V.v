@@ -1,8 +1,3 @@
-// `include "IF.v"
-// `include "ID.v"
-// `include "EXE.v"
-// `include "MEM.v"
-// `include "WB.v"
 `timescale 1ns / 1ps
 
 module RISC_V #(parameter PC_SIZE=10, 

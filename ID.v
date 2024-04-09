@@ -1,6 +1,3 @@
-// `include "Registers.v"
-// `include "Control.v"
-// `include "Imm_Gen.v"
 `timescale 1ns / 1ps
 
 module ID #(parameter PC_SIZE=10)

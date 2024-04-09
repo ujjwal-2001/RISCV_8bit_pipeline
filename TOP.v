@@ -1,4 +1,3 @@
-//  `include "RISC_V.v"
 `timescale 1ns / 1ps
 
 module TOP #(parameter PC_SIZE=10, parameter DATA_MEM_SIZE=256, parameter ADDRESS_LINE=8)

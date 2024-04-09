@@ -1,6 +1,3 @@
-// `include "ALU.v"
-// `include "MUX_2to1.v"
-// `include "ALU_Control.v"
 `timescale 1ns / 1ps
 
 module EXE #(parameter PC_SIZE=10)
