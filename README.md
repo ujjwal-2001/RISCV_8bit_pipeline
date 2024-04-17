@@ -9,17 +9,17 @@
 6. [Results](#results)
 7. [Conclusion](#conclusion)
 8. [References](#references)
-9. 
+   
 ## Authors
-1. [UJJWAL CHAUDHARY](https://www.linkedin.com/in/ujjwal-chaudhary-4436701aa/)
-2. [ANANYA PAL](https://www.linkedin.com/in/ananya-pal-snuece2023/)
+1. [UJJWAL CHAUDHARY](https://www.linkedin.com/in/ujjwal-chaudhary-4436701aa/), M. Tech. ESE 2023-25, IISc Bangalore
+2. [ANANYA PAL](https://www.linkedin.com/in/ananya-pal-snuece2023/), M. Tech. ESE 2023-25, IISc Bangalore
 
 ## Introduction and Motivation
 
 In the fast-evolving landscape of embedded systems and IoT devices, the demand for high-performance, energy-efficient processors is ever-increasing. To meet this demand, we propose the design and implementation of an 8-bit RISC-V processor with advanced features such as a 5-stage pipeline and bypassing. This project aims to create a processor that not only meets the performance requirements of modern embedded systems but also addresses the challenges of power consumption and area utilization. By leveraging the simplicity and flexibility of the RISC-V instruction set architecture, we seek to deliver a processor that is both efficient and versatile, capable of powering a wide range of embedded applications.
 
 ### Figure 1: Implemented RISC V processor Block Diagram [1].
-<img src=".\Assets\riscv.png" alt="Alt Text" width="700">
+<img src=".\Assets\riscv.png" alt="Alt Text" width="800">
 
 ## Design Space Exploration and Design Strategies
 
@@ -73,7 +73,7 @@ The project embraced a top-down approach to Verilog coding, where the overall sy
 To test the functionality of the RISC-V architecture, a sequence of code is executed to manipulate arbitrary numbers stored in memory locations. In this sequence, we are iterating through each number and performing a conditional operation (beq) based on its parity. Specifically, if a number is odd, one is added to it, otherwise, one is subtracted. After performing the operation, the updated number is stored back into the same memory location. This process effectively toggles the parity of each number, ensuring that even numbers become odd and odd numbers become even. By executing this sequence, we can verify the correct functioning of our RISC-V architecture, including the proper execution of arithmetic operations and memory access instructions. Additionally, this test helps validate the correctness of the instruction decoding and execution mechanisms within the processor design.
 
 ### Figure 2: Flow chart for the testbench instruction set.
-<img src=".\Assets\flow-chart.png" alt="Alt Text" width="700">
+<img src=".\Assets\flow-chart.png" alt="Alt Text" width="300">
 
 ### Table 4: Testbench assembly code equivalent.
 
@@ -95,6 +95,11 @@ To test the functionality of the RISC-V architecture, a sequence of code is exec
 | 14     | jal 6       | PC = PC + 6    | 0000000_00110_00000_000_00000_1101111 |
 | 15     | nop         | -               | 000000000000_00000_000_00000_0000000 |
 | 16     | nop         | -               | 000000000000_00000_000_00000_0000000 |
+| 17     | nop         | -               | 000000000000_00000_000_00000_0000000|
+| 18     | add r3, r2, r3| r3 = r2 + r3  | 0000000_00010_00011_000_00011_0110011|
+| 19     | sd r3, 0, r1| MEM[0+r1] = r3  |0000000_00011_00001_000_00000_0100011|
+| 20     | add r1, r2, r1 | r1 = r2 + r1 | 0000000_00010_00001_000_00001_0110011|
+| 21     | jal 238     | PC = PC + 238   | 001111101110_00000_000_00000_1101111|
 
 
 ## Implementation Challenges
@@ -106,8 +111,10 @@ While developing the RISC-V processor on FPGA, several implementation challenges
 From figure 3, we observe a close resemblance of our design to the reference block diagram from which we started off in the beginning in figure 1.
 
 - **RTL Synthesis:** The design closely resembles the reference block diagram, demonstrating successful [RTL synthesis](/Assets/schematics.pdf).
-- **Timing Analysis:** The design meets timing requirements, with a maximum operating frequency of approximately 45 MHz.<img src=".\Assets\time.png" alt="Alt Text" width="700">
-- **Resource Utilization:** The design utilizes hardware resources efficiently, with detailed breakdowns provided for logic elements, registers, memory blocks, and I/O resources.<img src=".\Assets\resource.png" alt="Alt Text" width="700">
+- **Timing Analysis:** The design meets timing requirements, with a maximum operating frequency of approximately 45 MHz.
+  <img src=".\Assets\time.png" alt="Alt Text" width="700">
+- **Resource Utilization:** The design utilizes hardware resources efficiently, with detailed breakdowns provided for logic elements, registers, memory blocks, and I/O resources (Basys 3, artix7).
+<img src=".\Assets\resource.png" alt="Alt Text" width="500">
 
 ## Conclusion
 
